@@ -47,7 +47,7 @@ export class SistemaOperativo {
                 while (bandera === true) {
                     op1Generado = generarNumeroAleatorio();
                     op2Generado = generarNumeroAleatorio();                
-                    if (op1Generado !== 0 && op2Generado !== 0) { bandera = false; }
+                   ( op1Generado === 0 || op2Generado == 0) ? bandera = true : bandera = false;
                 }
             } 
             
@@ -56,7 +56,7 @@ export class SistemaOperativo {
                 while (bandera === true) {
                     op1Generado = generarNumeroAleatorio();
                     op2Generado = generarNumeroAleatorio();                
-                    if (op1Generado !== 0 && op2Generado !== 0) { bandera = false; }
+                   ( op1Generado === 0 || op2Generado == 0) ? bandera = true : bandera = false;
                 }
             }
 
@@ -81,8 +81,10 @@ export class SistemaOperativo {
             const errorGenerado = false;
 
             const nuevoProceso = new Proceso(idGenerado, tmeGenerado, trGenerado, ttGenerado, opGenerada,  op1Generado, op2Generado, resultadoGenerado, estadoGenerado, errorGenerado);
-            this.procesosListos.push(nuevoProceso);
+            this.procesosNuevos.push(nuevoProceso);
         }
+        const nuevoSO = {...this};
+        return nuevoSO;
     } 
 
     // --- Getters ----------------------------------------------------------------------------------------------------
@@ -94,9 +96,35 @@ export class SistemaOperativo {
         return this.cantidadProcesos;
     }
 
+    public getProcesoEnEjecucion = (): Proceso | null => {
+        return this.procesoEnEjecucion;
+    }
+
+    public getProcesosBloqueados = (): Proceso[] => {
+        return this.procesosBloqueados;
+    }
+
+    public getProcesosNuevos = (): Proceso[] => {
+        return this.procesosNuevos;
+    }
+
+    public getProcesosTerminados = (): Proceso[] => {
+        return this.procesosTerminados;
+    }
+
+    public getReloj = (): number => {
+        return this.reloj;
+    }
+
+    public getProcesosListos = (): Proceso[] => {
+        return this.procesosListos;
+    }
+ 
     // --- Setters ----------------------------------------------------------------------------------------------------
-    public setCantidadProcesos = (cantidad: number): void => {
+    public setCantidadProcesos = (cantidad: number): SistemaOperativo => {
         this.cantidadProcesos = cantidad;
+        const nuevoSO = {...this};
+        return nuevoSO;
     }
 
 }

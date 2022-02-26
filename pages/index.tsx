@@ -3,7 +3,9 @@ import { Grid, GridItem } from '@chakra-ui/react';
 
 import { TituloSeccion } from '../components/TituloSeccion';
 import { Controles } from '../components/Controles';
+import { SeccionNuevos } from '../components/SeccionNuevos';
 import { ContenedorSeccion } from '../components/ContenedorSeccion';
+import { SeccionListos } from '../components/SeccionListos';
 
 // ********************************************************************************
 export const GLOBAL_BORDER_RADIUS = 15;
@@ -51,7 +53,7 @@ const Home: NextPage = () => {
         bg={GLOBAL_COLOR}
         borderRadius={GLOBAL_BORDER_RADIUS}>
         <ContenedorSeccion>
-          <TituloSeccion nombreSeccion='Nuevos' />
+          <SeccionNuevos />
         </ContenedorSeccion>
       </GridItem>
 
@@ -84,7 +86,7 @@ const Home: NextPage = () => {
         borderRadius={GLOBAL_BORDER_RADIUS}>
 
         <ContenedorSeccion>
-          <TituloSeccion nombreSeccion='Memoria (Procesos Listos)' />
+          <SeccionListos />
         </ContenedorSeccion>
       </GridItem>
 

@@ -1,5 +1,6 @@
-import { Box, Button, Center, Flex, Input } from '@chakra-ui/react';
+import { Box, Center, Flex, Input } from '@chakra-ui/react';
 import { useState } from 'react';
+import { SistemaOperativo } from '../class/SistemaOperativo';
 import { useSistemaOperativoContext } from '../context/useSistemaOperativoContext';
 
 import { GLOBAL_BORDER_RADIUS } from '../pages/index';
@@ -9,7 +10,7 @@ import { Boton } from './Boton';
 export interface ControlesProps { }
 
 export const Controles: React.FC<ControlesProps> = ({ }) => {
-  const { sistemaOperativo } = useSistemaOperativoContext();
+  const { sistemaOperativo, setSistemaOperativo } = useSistemaOperativoContext();
 
   const [inputValue, setInputValue] = useState('');
   const [mensaje, setMensaje] = useState('');
@@ -22,8 +23,9 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
     if (parseInt(inputValue) && parseInt(inputValue) > 0) {
       setIsEvaluado(!isEvaluado);
       setMensaje('Cantidad De Procesos Válida');
-      sistemaOperativo?.setCantidadProcesos(parseInt(inputValue));
-      sistemaOperativo?.inicializar();
+
+      setSistemaOperativo(sistemaOperativo!.setCantidadProcesos(parseInt(inputValue)));
+      setSistemaOperativo(sistemaOperativo!.inicializar());
     } else {
       setMensaje('Cantidad De Procesos Inválida');
     }
@@ -55,7 +57,7 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
       {
         isEvaluado &&
         <Flex mt={10}>
-          <Boton contenido={'Comenzar'} width={'100%'} callback={handleEvaluar} />
+          <Boton contenido={'Comenzar'} width={'100%'} callback={()=>{}} />
           <Boton contenido={'Pausa'} width={'100%'} callback={() => { }} />
           <Boton contenido={'Interrupción'} width={'100%'} callback={() => { }} />
           <Boton contenido={'Marcar Error'} width={'100%'} callback={() => { }} />
