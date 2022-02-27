@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 
-import { GLOBAL_BORDER_RADIUS, GLOBAL_SECONDARY_COLOR } from '../pages/index';
+import { GLOBAL_BORDER_RADIUS, GLOBAL_SECONDARY_COLOR } from '../../pages/index';
 
 // ********************************************************************************
 export interface TituloSeccionProps {

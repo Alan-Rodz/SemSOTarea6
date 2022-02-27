@@ -1,11 +1,14 @@
 import type { NextPage } from 'next'
 import { Grid, GridItem } from '@chakra-ui/react';
 
-import { TituloSeccion } from '../components/TituloSeccion';
+import { TituloSeccion } from '../components/seccion/TituloSeccion';
 import { Controles } from '../components/Controles';
-import { SeccionNuevos } from '../components/SeccionNuevos';
-import { ContenedorSeccion } from '../components/ContenedorSeccion';
-import { SeccionListos } from '../components/SeccionListos';
+import { SeccionNuevos } from '../components/seccion/SeccionNuevos';
+import { SeccionEjecucion } from '../components/seccion/SeccionEjecucion';
+import { SeccionBloqueados } from '../components/seccion/SeccionBloqueados';
+import { ContenedorSeccion } from '../components/seccion/ContenedorSeccion';
+import { SeccionListos } from '../components/seccion/SeccionListos';
+import { SeccionTerminados } from '../components/seccion/SeccionTerminados';
 
 // ********************************************************************************
 export const GLOBAL_BORDER_RADIUS = 15;
@@ -25,7 +28,7 @@ const Home: NextPage = () => {
         bg={GLOBAL_COLOR}
         borderRadius={GLOBAL_BORDER_RADIUS}>
         <ContenedorSeccion>
-          <TituloSeccion nombreSeccion='En Ejecución' />
+          <SeccionEjecucion />
         </ContenedorSeccion>
       </GridItem>
 
@@ -39,7 +42,7 @@ const Home: NextPage = () => {
         bg={GLOBAL_COLOR}
         borderRadius={GLOBAL_BORDER_RADIUS}>
         <ContenedorSeccion>
-          <TituloSeccion nombreSeccion='Bloqueados' />
+          <SeccionBloqueados />
         </ContenedorSeccion>
       </GridItem>
 
@@ -102,7 +105,7 @@ const Home: NextPage = () => {
         borderRadius={GLOBAL_BORDER_RADIUS}>
 
         <ContenedorSeccion>
-          <TituloSeccion nombreSeccion='Terminados' />
+          <SeccionTerminados />
         </ContenedorSeccion>
       </GridItem>
 

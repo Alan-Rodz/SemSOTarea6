@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react'
 import { ReactNode } from 'react'
-import { GLOBAL_BORDER_RADIUS, GLOBAL_COLOR } from '../pages'
+import { GLOBAL_BORDER_RADIUS, GLOBAL_COLOR } from '../../pages'
 
 export const ContenedorSeccion: React.FC<ReactNode> = ({ children }) => {
     return (

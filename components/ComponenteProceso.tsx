@@ -9,10 +9,13 @@ export interface ProcesoProps {
     width: string;
 }
 
+const SEPARADOR = '--';
+
 export const ComponenteProceso: React.FC<ProcesoProps> = ({ width, proceso }) => {
 
     return (
         <>
+            {/*** Proceso Nuevo ******************************************************************************************************************/}
             {
                 proceso.estado === 'Nuevo' &&
                 <Box
@@ -24,14 +27,90 @@ export const ComponenteProceso: React.FC<ProcesoProps> = ({ width, proceso }) =>
                     fontSize={20}
                 >
                     <Box>
-                        { proceso.estado === 'Nuevo'
+                        {proceso.estado === 'Nuevo'
                             &&
-                            `ID: ${proceso.ID} --- 
-                            TME: ${proceso.tiempoRestante} --- 
-                            TR: ${proceso.tiempoTotal} --- 
-                            Operación: ${proceso.operacion} --- 
-                            Operando1: ${proceso.operando1} --- 
-                            Operando2: ${proceso.operando2} `
+                            `(ID: ${proceso.ID}) ${SEPARADOR}
+                            (TME: ${proceso.tiempoRestante}) ${SEPARADOR}     
+                            (TR: ${proceso.tiempoTotal}) ${SEPARADOR}     
+                            (Operación: ${proceso.operacion}) ${SEPARADOR}     
+                            (Operando1: ${proceso.operando1}) ${SEPARADOR}     
+                            (Operando2: ${proceso.operando2})`
+                        }
+                    </Box>
+                </Box>
+            }
+
+            {/*** Proceso En Ejecucion ******************************************************************************************************************/}
+            {
+                proceso.estado === 'Ejecucion' &&
+                <Box
+                    width={width}
+                    borderRadius={GLOBAL_BORDER_RADIUS}
+                    padding={10}
+                    mt={10}
+                    bg={GLOBAL_SECONDARY_COLOR}
+                    fontSize={20}
+                >
+                    <Box>
+                        {(proceso.estado === 'Ejecucion' && proceso.error === false)
+                            &&
+                            `(ID: ${proceso.ID}) ${SEPARADOR}     
+                            (TME: ${proceso.tiempoMaximoEstimado}) ${SEPARADOR}
+                            (TR: ${proceso.tiempoRestante}) ${SEPARADOR} 
+                            (TT: ${proceso.tiempoTotal}) ${SEPARADOR}
+                            (Operación: ${proceso.operacion}) ${SEPARADOR} 
+                            (Operando1: ${proceso.operando1}) ${SEPARADOR}
+                            (Operando2: ${proceso.operando2})
+                            `
+                        }
+                    </Box>
+                </Box>
+            }
+
+            {/*** Proceso Bloqueado ******************************************************************************************************************/}
+            {
+                proceso.estado === 'Bloqueado' &&
+                <Box
+                    width={width}
+                    borderRadius={GLOBAL_BORDER_RADIUS}
+                    padding={10}
+                    mt={10}
+                    bg={GLOBAL_SECONDARY_COLOR}
+                    fontSize={20}
+                >
+                    <Box>
+                        {(proceso.estado === 'Bloqueado' && proceso.error === false)
+                            &&
+                            `(ID: ${proceso.ID}) ${SEPARADOR}   
+                            (Tiempo Bloqueado: ${proceso.tiempoBloqueado})`
+                        }
+                    </Box>
+                </Box>
+            }
+
+            {/*** Proceso Terminado ******************************************************************************************************************/}
+            {
+                proceso.estado === 'Terminado' &&
+                <Box
+                    width={width}
+                    borderRadius={GLOBAL_BORDER_RADIUS}
+                    padding={10}
+                    mt={10}
+                    bg={GLOBAL_SECONDARY_COLOR}
+                    fontSize={20}
+                >
+                    <Box>
+                        {(proceso.estado === 'Terminado' && proceso.error === false)
+                            &&
+                            `(ID: ${proceso.ID}) ${SEPARADOR}   
+                            (Operación: ${proceso.operacion}) ${SEPARADOR}     
+                            (Resultado: ${proceso.resultado})`
+                        }
+                        {(proceso.estado === 'Terminado' && proceso.error === true)
+                            &&
+                            `(ID: ${proceso.ID}) ${SEPARADOR}     
+                            (Operación: ${proceso.operacion}) ${SEPARADOR}     
+                            (Resultado: Error)`
                         }
                     </Box>
                 </Box>

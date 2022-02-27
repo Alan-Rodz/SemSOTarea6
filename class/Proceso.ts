@@ -14,9 +14,10 @@ export class Proceso {
     operando2: number; 
     resultado: number; 
     estado: Estado;
-    error: boolean
+    error: boolean;
+    tiempoBloqueado: number;
 
-    constructor(ID: number, tiempoMaximoEstimado: number, tiempoRestante: number, tiempoTotal: number, operacion: Operacion, operando1: number,  operando2: number,  resultado: number,  estado: Estado, error: boolean ){
+    constructor(ID: number, tiempoMaximoEstimado: number, tiempoRestante: number, tiempoTotal: number, operacion: Operacion, operando1: number,  operando2: number,  resultado: number,  estado: Estado, error: boolean, tiempoBloqueado: number ){
         this.ID = ID;
         this.tiempoMaximoEstimado = tiempoMaximoEstimado;
         this.tiempoRestante = tiempoRestante;
@@ -27,6 +28,7 @@ export class Proceso {
         this.resultado = resultado;
         this.estado = estado;
         this.error = error;
+        this.tiempoBloqueado = tiempoBloqueado;
     }
 
 }

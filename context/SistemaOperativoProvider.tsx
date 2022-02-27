@@ -4,7 +4,7 @@ import { SistemaOperativoContext } from './SistemaOperativoContext';
 
 // ********************************************************************************
 export const SistemaOperativoProvider: React.FC = ({ children }) => {
-  const [ sistemaOperativo, setSistemaOperativo ] = useState(new SistemaOperativo(0, null, [], [], [], 0, []));
+  const [ sistemaOperativo, setSistemaOperativo ] = useState(new SistemaOperativo(0, null, [], [], [], 0, [], 'Activo'));
 
   return (<SistemaOperativoContext.Provider value={{ sistemaOperativo, setSistemaOperativo }}>{children}</SistemaOperativoContext.Provider>);
 };

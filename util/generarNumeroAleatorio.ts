@@ -1,3 +1,3 @@
 export const generarNumeroAleatorio = (): number => {
-    return Math.floor(Math.random() * (100000)); 
+    return Math.ceil(Math.random() * (100000)); 
 }
