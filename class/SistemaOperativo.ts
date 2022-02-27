@@ -119,7 +119,7 @@ export class SistemaOperativo {
 
         let banderaRegresar = false;
         banderaRegresar = this.checarMemoriaLlena();
-        if (banderaRegresar) { const nuevoEstado = { ...this }; return nuevoEstado; }
+        if (banderaRegresar) { this.incrementarTiemposGenerales(); const nuevoEstado = { ...this }; return nuevoEstado; }
 
         // --- Procesamiento Normal ----------------------------------------------------------------------------------------------------
         if (this.procesoEnEjecucion === null && this.procesosListos.length) { /*no hay proceso en ejecución*/
