@@ -17,7 +17,7 @@ export const ComponenteProceso: React.FC<ProcesoProps> = ({ width, proceso }) =>
         <>
             {/*** Proceso Nuevo ******************************************************************************************************************/}
             {
-                proceso.estado === 'Nuevo' &&
+                (proceso.estado === 'Nuevo' || proceso.estado === 'Listo') &&
                 <Box
                     width={width}
                     borderRadius={GLOBAL_BORDER_RADIUS}
@@ -27,7 +27,7 @@ export const ComponenteProceso: React.FC<ProcesoProps> = ({ width, proceso }) =>
                     fontSize={20}
                 >
                     <Box>
-                        {proceso.estado === 'Nuevo'
+                        {(proceso.estado === 'Nuevo' || proceso.estado === 'Listo')
                             &&
                             `(ID: ${proceso.ID}) ${SEPARADOR}
                             (TME: ${proceso.tiempoRestante}) ${SEPARADOR}     
@@ -107,6 +107,7 @@ export const ComponenteProceso: React.FC<ProcesoProps> = ({ width, proceso }) =>
                             (TME: ${proceso.tiempoMaximoEstimado}) ${SEPARADOR}
                             (TR: ${proceso.tiempoRestante}) ${SEPARADOR} 
                             (TT: ${proceso.tiempoTotal}) ${SEPARADOR}
+                            (Tiempo Bloqueado: ${proceso.tiempoBloqueado}) ${SEPARADOR}
 
                             (Operación: ${proceso.operacion}) ${SEPARADOR} 
                             (Operando1: ${proceso.operando1}) ${SEPARADOR}
@@ -115,6 +116,7 @@ export const ComponenteProceso: React.FC<ProcesoProps> = ({ width, proceso }) =>
                             
                             (Tiempo de Llegada: ${proceso.tiempoLlegada}) ${SEPARADOR}
                             (Tiempo de Finalización: ${proceso.tiempoFinalizacion}) ${SEPARADOR}
+                            (Tiempo de Espera: ${proceso.tiempoEspera}) ${SEPARADOR}
                             (Tiempo de Servicio: ${proceso.tiempoServicio}) ${SEPARADOR}
                             (Tiempo de Retorno: ${proceso.tiempoRetorno}) ${SEPARADOR}
                             (Tiempo de Respuesta: ${proceso.tiempoRespuesta})
@@ -136,6 +138,7 @@ export const ComponenteProceso: React.FC<ProcesoProps> = ({ width, proceso }) =>
                             
                             (Tiempo de Llegada: ${proceso.tiempoLlegada}) ${SEPARADOR}
                             (Tiempo de Finalización: ${proceso.tiempoFinalizacion}) ${SEPARADOR}
+                            (Tiempo de Espera: ${proceso.tiempoEspera}) ${SEPARADOR}
                             (Tiempo de Servicio: ${proceso.tiempoServicio}) ${SEPARADOR}
                             (Tiempo de Retorno: ${proceso.tiempoRetorno}) ${SEPARADOR}
                             (Tiempo de Respuesta: ${proceso.tiempoRespuesta})

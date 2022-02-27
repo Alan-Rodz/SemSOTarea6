@@ -47,7 +47,6 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
     return () => clearInterval(modificarEstadoSO);
   });
 
-
   // --- Handlers ----------------------------------------------------------------------------------------------------
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => { setInputValue((e.target as HTMLInputElement).value); }
 

@@ -3,6 +3,8 @@ import { generarNumeroAleatorio } from '../util/generarNumeroAleatorio'
 
 // ********************************************************************************
 export const CONSTANTE_TIEMPO_BLOQUEADO = 8;
+export const CONSTANTE_MEMORIA = 5;
+
 export type EstadoSO = 'Activo' | 'Terminado';
 export class SistemaOperativo {
     private cantidadProcesos: number;
@@ -90,11 +92,15 @@ export class SistemaOperativo {
                 return nuevoEstado;
             }
 
-            if (this.procesoEnEjecucion) { this.procesoEnEjecucion.estado = 'Terminado'; this.procesosTerminados.push(this.procesoEnEjecucion); }
+            if (this.procesoEnEjecucion) {
+                this.procesoEnEjecucion.estado = 'Terminado';
+                this.procesoEnEjecucion.tiempoFinalizacion = this.reloj; /*establecer tiempo finalizacion*/
+                this.procesosTerminados.push(this.procesoEnEjecucion);
+            }
 
-            this.procesosBloqueados.forEach(proceso => proceso.estado = 'Terminado');
-            this.procesosNuevos.forEach(proceso => proceso.estado = 'Terminado');
-            this.procesosListos.forEach(proceso => proceso.estado = 'Terminado');
+            this.procesosBloqueados.forEach(proceso => { proceso.tiempoFinalizacion = this.reloj; proceso.estado = 'Terminado' }); /*establecer tiempo finalizacion*/
+            this.procesosNuevos.forEach(proceso => { proceso.tiempoFinalizacion = this.reloj; proceso.estado = 'Terminado' });     /*establecer tiempo finalizacion*/
+            this.procesosListos.forEach(proceso => { proceso.tiempoFinalizacion = this.reloj; proceso.estado = 'Terminado' });     /*establecer tiempo finalizacion*/
 
             this.procesosTerminados = [...this.procesosBloqueados, ...this.procesosNuevos, ...this.procesosListos];
 
@@ -120,16 +126,19 @@ export class SistemaOperativo {
             let proceso = this.procesosListos.shift();
             if (proceso) {
                 proceso.estado = 'Ejecucion';
+                if (proceso.tiempoRespuesta === 0) { proceso.tiempoRespuesta = this.reloj; } /*establecer tiempo respuesta la primera vez*/
                 this.procesoEnEjecucion = proceso;
             }
         }
 
         if (this.procesoEnEjecucion && !isInterrupcion && !isError) { /*hay un proceso en ejecución y no hay señales extra*/
             if (this.procesoEnEjecucion.tiempoTotal !== this.procesoEnEjecucion.tiempoMaximoEstimado) {
+                this.procesoEnEjecucion.tiempoServicio++; /*establecer tiempo servicio*/
                 this.procesoEnEjecucion.tiempoTotal++;
                 this.procesoEnEjecucion.tiempoRestante--;
             } else {
                 this.procesoEnEjecucion.estado = 'Terminado';
+                this.procesoEnEjecucion.tiempoFinalizacion = this.reloj; /*establecer tiempo finalizacion*/
                 this.procesosTerminados.push(this.procesoEnEjecucion);
                 this.procesoEnEjecucion = null;
             }
@@ -137,7 +146,8 @@ export class SistemaOperativo {
 
         if (this.procesoEnEjecucion && isError) { /*hay error*/
             this.procesoEnEjecucion.error = true;
-            this.procesoEnEjecucion.estado = 'Terminado';
+            this.procesoEnEjecucion.estado = 'Terminado';               /*establecer tiempo finalizacion*/
+            this.procesoEnEjecucion.tiempoFinalizacion = this.reloj;
             this.procesosTerminados.push(this.procesoEnEjecucion);
             this.procesoEnEjecucion = null;
         }
@@ -149,31 +159,65 @@ export class SistemaOperativo {
             this.procesoEnEjecucion = null;
 
             const proceso = this.procesosListos.shift();
-            if (proceso) { proceso.estado = 'Ejecucion'; }
-        }
-
-        if (this.procesosBloqueados.length) { /*manejar procesos bloqueados*/
-            this.procesosBloqueados.forEach(proceso => {
-                proceso.tiempoBloqueado++;
-
-                if (proceso.tiempoBloqueado === CONSTANTE_TIEMPO_BLOQUEADO) {
-                    const indiceProceso = this.procesosBloqueados.indexOf(proceso);
-                    this.procesosListos.push(proceso);
-                    if (indiceProceso > -1) { this.procesosBloqueados.splice(indiceProceso, 1); }
+            if (proceso) { 
+                proceso.estado = 'Ejecucion'; 
+                this.procesoEnEjecucion = proceso; /*ponemos el siguiente de listos en ejecucion*/ 
+                if (proceso.tiempoRespuesta === 0) { 
+                    proceso.tiempoRespuesta = this.reloj; 
                 }
-            })
+            } /*establecer tiempo respuesta la primera vez*/
         }
-        if (isComenzado) { this.reloj++; } /*aumentar reloj*/
+        
+        this.manejarProcesosBloqueados();
+        if (isComenzado) { this.incrementarTiemposGenerales(); } /*aumentar reloj*/
         const nuevoEstado = { ...this };
         return nuevoEstado;
     }
 
-    public checarMemoriaLlena = () => {
-        if (this.procesosListos.length !== 5 && this.procesosNuevos.length !== 0) {
-            const proceso = this.procesosNuevos.shift();
+    private checarMemoriaLlena = () => {
+        if (this.procesosListos.length !== CONSTANTE_MEMORIA && this.procesosNuevos.length !== 0) {
+            let proceso = this.procesosNuevos.shift();
+            if (proceso) {
+                proceso.estado = 'Listo';
+                proceso.tiempoLlegada = this.reloj /*establecer tiempo de llegada*/;
+            }
             if (proceso) { this.procesosListos.push(proceso); return true; /*regresar*/ }
         }
         return false;
+    }
+
+    private manejarProcesosBloqueados = () => {
+        const nuevoArregloBloqueados: Proceso[] = [];
+        if (this.procesosBloqueados.length) { 
+
+            this.procesosBloqueados.forEach(proceso => {
+                proceso.tiempoBloqueado++;
+                if (proceso.tiempoBloqueado >= CONSTANTE_TIEMPO_BLOQUEADO) {
+                    proceso.estado = 'Nuevo';
+                    this.procesosNuevos.push(proceso);
+                } else {
+                    nuevoArregloBloqueados.push(proceso);
+                }
+            })
+
+        }
+        this.procesosBloqueados = nuevoArregloBloqueados;
+    }
+
+    private incrementarTiemposGenerales = () => {
+        this.reloj++;
+
+        /*establecer tiempo de espera para procesos nuevos, listos o bloqueados*/
+        this.procesosNuevos.forEach(proceso => proceso.tiempoEspera++);
+        this.procesosListos.forEach(proceso => proceso.tiempoEspera++);
+        this.procesosBloqueados.forEach(proceso => proceso.tiempoEspera++);
+
+        /*establecer tiempo retorno para todos los procesos que no hayan sido terminados*/
+        if (this.procesoEnEjecucion) { this.procesoEnEjecucion.tiempoRetorno++; }
+        this.procesosBloqueados.forEach(proceso => proceso.tiempoRetorno++);
+        this.procesosNuevos.forEach(proceso => proceso.tiempoRetorno++);
+        this.procesosListos.forEach(proceso => proceso.tiempoRetorno++);
+
     }
 
     // --- Getters ----------------------------------------------------------------------------------------------------
