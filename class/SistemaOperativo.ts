@@ -74,9 +74,8 @@ export class SistemaOperativo {
 
             const estadoGenerado: Estado = 'Nuevo';
             const errorGenerado = false;
-            const tbGenerado = 0;
 
-            const nuevoProceso = new Proceso(idGenerado, tmeGenerado, trGenerado, ttGenerado, opGenerada, op1Generado, op2Generado, resultadoGenerado, estadoGenerado, errorGenerado, tbGenerado);
+            const nuevoProceso = new Proceso(idGenerado, tmeGenerado, trGenerado, ttGenerado, opGenerada, op1Generado, op2Generado, resultadoGenerado, estadoGenerado, errorGenerado);
             this.procesosNuevos.push(nuevoProceso);
         }
         const nuevoEstado = { ...this };

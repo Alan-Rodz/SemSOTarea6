@@ -102,15 +102,44 @@ export const ComponenteProceso: React.FC<ProcesoProps> = ({ width, proceso }) =>
                     <Box>
                         {(proceso.estado === 'Terminado' && proceso.error === false)
                             &&
-                            `(ID: ${proceso.ID}) ${SEPARADOR}   
-                            (Operación: ${proceso.operacion}) ${SEPARADOR}     
-                            (Resultado: ${proceso.resultado})`
+                            `(ID: ${proceso.ID}) ${SEPARADOR}
+
+                            (TME: ${proceso.tiempoMaximoEstimado}) ${SEPARADOR}
+                            (TR: ${proceso.tiempoRestante}) ${SEPARADOR} 
+                            (TT: ${proceso.tiempoTotal}) ${SEPARADOR}
+
+                            (Operación: ${proceso.operacion}) ${SEPARADOR} 
+                            (Operando1: ${proceso.operando1}) ${SEPARADOR}
+                            (Operando2: ${proceso.operando2}) 
+                            (Resultado: ${proceso.resultado})
+                            
+                            (Tiempo de Llegada: ${proceso.tiempoLlegada}) ${SEPARADOR}
+                            (Tiempo de Finalización: ${proceso.tiempoFinalizacion}) ${SEPARADOR}
+                            (Tiempo de Servicio: ${proceso.tiempoServicio}) ${SEPARADOR}
+                            (Tiempo de Retorno: ${proceso.tiempoRetorno}) ${SEPARADOR}
+                            (Tiempo de Respuesta: ${proceso.tiempoRespuesta})
+                            `
+                            
                         }
                         {(proceso.estado === 'Terminado' && proceso.error === true)
                             &&
-                            `(ID: ${proceso.ID}) ${SEPARADOR}     
-                            (Operación: ${proceso.operacion}) ${SEPARADOR}     
-                            (Resultado: Error)`
+                            `(ID: ${proceso.ID}) ${SEPARADOR}
+
+                            (TME: ${proceso.tiempoMaximoEstimado}) ${SEPARADOR}
+                            (TR: ${proceso.tiempoRestante}) ${SEPARADOR} 
+                            (TT: ${proceso.tiempoTotal}) ${SEPARADOR}     
+                            
+                            (Operación: ${proceso.operacion}) ${SEPARADOR} 
+                            (Operando1: ${proceso.operando1}) ${SEPARADOR}
+                            (Operando2: ${proceso.operando2}) 
+                            (Resultado: ERROR)
+                            
+                            (Tiempo de Llegada: ${proceso.tiempoLlegada}) ${SEPARADOR}
+                            (Tiempo de Finalización: ${proceso.tiempoFinalizacion}) ${SEPARADOR}
+                            (Tiempo de Servicio: ${proceso.tiempoServicio}) ${SEPARADOR}
+                            (Tiempo de Retorno: ${proceso.tiempoRetorno}) ${SEPARADOR}
+                            (Tiempo de Respuesta: ${proceso.tiempoRespuesta})
+                            `
                         }
                     </Box>
                 </Box>
