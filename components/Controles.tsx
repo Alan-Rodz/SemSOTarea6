@@ -6,7 +6,7 @@ import { GLOBAL_BORDER_RADIUS, GLOBAL_SECONDARY_COLOR } from '../pages/index';
 import { Boton } from './Boton';
 
 // ********************************************************************************
-const VELOCIDAD = 1000;
+const VELOCIDAD = 500;
 const MENSAJE_PROGRAMA_TERMINADO = 'Programa Terminado';
 export interface ControlesProps { }
 

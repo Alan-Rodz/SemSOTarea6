@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
 
 import { TituloSeccion } from '../components/seccion/TituloSeccion';
 import { Controles } from '../components/Controles';
@@ -27,6 +27,9 @@ const Home: NextPage = () => {
         colSpan={5}
         bg={GLOBAL_COLOR}
         borderRadius={GLOBAL_BORDER_RADIUS}>
+        <Box ml={10}>
+          Simulador de Sistema Operativo: FCFS
+        </Box>
         <ContenedorSeccion>
           <SeccionEjecucion />
         </ContenedorSeccion>
