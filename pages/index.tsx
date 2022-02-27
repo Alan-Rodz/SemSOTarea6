@@ -9,6 +9,7 @@ import { SeccionBloqueados } from '../components/seccion/SeccionBloqueados';
 import { ContenedorSeccion } from '../components/seccion/ContenedorSeccion';
 import { SeccionListos } from '../components/seccion/SeccionListos';
 import { SeccionTerminados } from '../components/seccion/SeccionTerminados';
+import Link from 'next/link';
 
 // ********************************************************************************
 export const GLOBAL_BORDER_RADIUS = 15;
@@ -29,6 +30,11 @@ const Home: NextPage = () => {
         borderRadius={GLOBAL_BORDER_RADIUS}>
         <Box ml={10}>
           Simulador de Sistema Operativo: FCFS
+        </Box>
+        <Box color={'blue'} ml={10}>
+          <Link href={'https://www.linkedin.com/in/alan-rodriguez-16b074192/'}>
+            Alan Ramiro Rodríguez González 
+          </Link>
         </Box>
         <ContenedorSeccion>
           <SeccionEjecucion />
