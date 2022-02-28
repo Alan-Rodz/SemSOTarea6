@@ -6,7 +6,8 @@ import { GLOBAL_BORDER_RADIUS, GLOBAL_SECONDARY_COLOR } from '../pages/index';
 import { Boton } from './Boton';
 
 // ********************************************************************************
-const VELOCIDAD = 500;
+const VELOCIDAD = 1000;
+const CONSTANTE_DURACION_MSGS = 5;
 const MENSAJE_PROGRAMA_TERMINADO = 'Programa Terminado';
 const teclasValidas = ['Enter', 'KeyC', 'KeyP', 'KeyI', 'KeyE', 'KeyT']
 export interface ControlesProps { }
@@ -15,7 +16,8 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
   // --- Estados ----------------------------------------------------------------------------------------------------
   const { sistemaOperativo, setSistemaOperativo } = useSistemaOperativoContext();
 
-  const [inputValue, setInputValue] = useState('12');
+  const [localCounter, setLocalCounter] = useState(0);
+  const [inputValue, setInputValue] = useState('');
   const [mensaje, setMensaje] = useState('');
 
   const [isEvaluado, setIsEvaluado] = useState(false);
@@ -33,7 +35,7 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
         setMensaje(MENSAJE_PROGRAMA_TERMINADO);
       }
     }
-  }, [sistemaOperativo])
+  }, [localCounter])
 
   useEffect(() => {
     const modificarEstadoSO = setInterval(() => {
@@ -43,7 +45,10 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
       setSistemaOperativo(nuevoSO);
       setIsError(false);
       setIsInterrupcion(false);
-
+      
+      setLocalCounter(localCounter => localCounter++);
+      
+      if (localCounter % CONSTANTE_DURACION_MSGS === 0) { setMensaje(''); }
     }, VELOCIDAD);
     return () => clearInterval(modificarEstadoSO);
   });
@@ -52,13 +57,14 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
   useEffect(() => {
     document.addEventListener('keydown', (e) => {
       if (!teclasValidas.includes(e.code)) { return; }
-      e.preventDefault();
-      if (e.code === 'Enter') { handleEvaluar() }
-      if (e.code === 'KeyC') { if(isComenzado === false) { setIsComenzado(!isComenzado); } else { return; } }
-      if (e.code === 'KeyP') { if(isComenzado === true) { setIsPausa(!isPausa); } else { return; } }
-      if (e.code === 'KeyI') { if(isComenzado === true) { handleInterrupcion(); } else { return; } }
-      if (e.code === 'KeyE') { if(isComenzado === true) { handleError(); } else { return; } }
-      if (e.code === 'KeyT') { if(isComenzado === true) { setIsTerminar(!isTerminar); setMensaje(MENSAJE_PROGRAMA_TERMINADO); } else { return; } }
+
+      /*else*/
+      if (e.code === 'Enter') { e.preventDefault(); handleEvaluar(); }
+      if (e.code === 'KeyC') { e.preventDefault(); if(isComenzado === false) { setIsComenzado(!isComenzado); setMensaje('Comenzado'); } else { return; } }
+      if (e.code === 'KeyP') { e.preventDefault(); if(isComenzado === true) { setIsPausa(!isPausa); isPausa ? setMensaje('Programa Continuando!') : setMensaje('Programa Pausado!') } else { return; } }
+      if (e.code === 'KeyI') { e.preventDefault(); if(isComenzado === true) { handleInterrupcion(); setMensaje('Si hay un proceso en ejecución, será interrumpido.'); } else { return; } }
+      if (e.code === 'KeyE') { e.preventDefault(); if(isComenzado === true) { handleError(); setMensaje('Si hay un proceso en ejecución, será marcado como error.'); } else { return; } }
+      if (e.code === 'KeyT') { e.preventDefault(); if(isComenzado === true) { setIsTerminar(!isTerminar); setMensaje(MENSAJE_PROGRAMA_TERMINADO); } else { return; } }
 
     })
   }, [sistemaOperativo])
@@ -115,7 +121,7 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
         !isEvaluado
           ?
           <Center>
-            <Boton contenido={'Evaluar Cantidad (Tecla Enter)'} width={'50%'} callback={handleEvaluar} />
+            <Boton contenido={'Evaluar Cantidad (Dar Click Aquí)'} width={'50%'} callback={handleEvaluar} />
           </Center>
           : null
       }
