@@ -62,8 +62,8 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
       if (e.code === 'Enter') { e.preventDefault(); handleEvaluar(); }
       if (e.code === 'KeyC') { e.preventDefault(); if(isComenzado === false) { setIsComenzado(!isComenzado); setMensaje('Comenzado'); } else { return; } }
       if (e.code === 'KeyP') { e.preventDefault(); if(isComenzado === true) { setIsPausa(!isPausa); isPausa ? setMensaje('Programa Continuando!') : setMensaje('Programa Pausado!') } else { return; } }
-      if (e.code === 'KeyI') { e.preventDefault(); if(isComenzado === true) { handleInterrupcion(); setMensaje('Si hay un proceso en ejecución, será interrumpido.'); } else { return; } }
-      if (e.code === 'KeyE') { e.preventDefault(); if(isComenzado === true) { handleError(); setMensaje('Si hay un proceso en ejecución, será marcado como error.'); } else { return; } }
+      if (e.code === 'KeyI') { e.preventDefault(); if(isComenzado === true) { handleInterrupcion(); setMensaje('Si hay un proceso en ejecución y la memoria está llena, será interrumpido.'); } else { return; } }
+      if (e.code === 'KeyE') { e.preventDefault(); if(isComenzado === true) { handleError(); setMensaje('Si hay un proceso en ejecución y la memoria está llena, será marcado como error.'); } else { return; } }
       if (e.code === 'KeyT') { e.preventDefault(); if(isComenzado === true) { setIsTerminar(!isTerminar); setMensaje(MENSAJE_PROGRAMA_TERMINADO); } else { return; } }
 
     })
