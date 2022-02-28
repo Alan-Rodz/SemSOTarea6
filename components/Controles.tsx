@@ -8,13 +8,14 @@ import { Boton } from './Boton';
 // ********************************************************************************
 const VELOCIDAD = 500;
 const MENSAJE_PROGRAMA_TERMINADO = 'Programa Terminado';
+const teclasValidas = ['Enter', 'KeyC', 'KeyP', 'KeyI', 'KeyE', 'KeyT']
 export interface ControlesProps { }
 
 export const Controles: React.FC<ControlesProps> = ({ }) => {
   // --- Estados ----------------------------------------------------------------------------------------------------
   const { sistemaOperativo, setSistemaOperativo } = useSistemaOperativoContext();
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState('12');
   const [mensaje, setMensaje] = useState('');
 
   const [isEvaluado, setIsEvaluado] = useState(false);
@@ -47,6 +48,21 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
     return () => clearInterval(modificarEstadoSO);
   });
 
+  // --- Global Key Handling ----------------------------------------------------------------------------------------------------
+  useEffect(() => {
+    document.addEventListener('keydown', (e) => {
+      if (!teclasValidas.includes(e.code)) { return; }
+      e.preventDefault();
+      if (e.code === 'Enter') { handleEvaluar() }
+      if (e.code === 'KeyC') { if(isComenzado === false) { setIsComenzado(!isComenzado); } else { return; } }
+      if (e.code === 'KeyP') { if(isComenzado === true) { setIsPausa(!isPausa); } else { return; } }
+      if (e.code === 'KeyI') { if(isComenzado === true) { handleInterrupcion(); } else { return; } }
+      if (e.code === 'KeyE') { if(isComenzado === true) { handleError(); } else { return; } }
+      if (e.code === 'KeyT') { if(isComenzado === true) { setIsTerminar(!isTerminar); setMensaje(MENSAJE_PROGRAMA_TERMINADO); } else { return; } }
+
+    })
+  }, [sistemaOperativo])
+
   // --- Handlers ----------------------------------------------------------------------------------------------------
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => { setInputValue((e.target as HTMLInputElement).value); }
 
@@ -69,6 +85,7 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
   const handleError = () => {
     setIsError(!isError);
   }
+
   return (
     <Box w="100%" h="100%" py={2} borderColor="gray.300">
       <Center>
@@ -98,7 +115,7 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
         !isEvaluado
           ?
           <Center>
-            <Boton contenido={'Evaluar Cantidad'} width={'50%'} callback={handleEvaluar} />
+            <Boton contenido={'Evaluar Cantidad (Tecla Enter)'} width={'50%'} callback={handleEvaluar} />
           </Center>
           : null
       }
@@ -106,20 +123,20 @@ export const Controles: React.FC<ControlesProps> = ({ }) => {
       {
         (isEvaluado && !isComenzado) &&
         <Flex mt={10}>
-          <Boton contenido={'Comenzar'} width={'100%'} callback={() => setIsComenzado(!isComenzado)} />
+          <Boton contenido={'Comenzar (Tecla C)'} width={'100%'} callback={() => setIsComenzado(!isComenzado)} />
         </Flex>
       }
 
       {(isComenzado && !isTerminar) &&
         <Flex mt={10}>
-          <Boton contenido={`${isPausa ? 'Continuar' : 'Pausar'}`} width={'100%'} callback={() => setIsPausa(!isPausa)} />
-          <Boton contenido={'Interrupción'} width={'100%'} callback={handleInterrupcion} />
-          <Boton contenido={'Marcar Error'} width={'100%'} callback={handleError} />
+          <Boton contenido={`${isPausa ? 'Continuar (Tecla P)' : 'Pausar (Tecla P)'}`} width={'100%'} callback={() => setIsPausa(!isPausa)} />
+          <Boton contenido={'Interrupción (Tecla I)'} width={'100%'} callback={handleInterrupcion} />
+          <Boton contenido={'Marcar Error (Tecla E)'} width={'100%'} callback={handleError} />
 
           {
             !isTerminar &&
             <>
-              <Boton contenido={'Terminar'} width={'100%'} callback={() => { setIsTerminar(!isTerminar); setMensaje(MENSAJE_PROGRAMA_TERMINADO); }} />
+              <Boton contenido={'Terminar (Tecla T)'} width={'100%'} callback={() => { setIsTerminar(!isTerminar); setMensaje(MENSAJE_PROGRAMA_TERMINADO); }} />
             </>
           }
         </Flex>

@@ -28,13 +28,13 @@ const Home: NextPage = () => {
         colSpan={5}
         bg={GLOBAL_COLOR}
         borderRadius={GLOBAL_BORDER_RADIUS}>
-        <Box ml={10}>
-          Simulador de Sistema Operativo: FCFS
-        </Box>
         <Box color={'blue'} ml={10}>
           <Link href={'https://www.linkedin.com/in/alan-rodriguez-16b074192/'}>
-            Alan Ramiro Rodríguez González 
+            Alan Ramiro Rodríguez González
           </Link>
+        </Box>
+        <Box ml={10}>
+          Simulador de Sistema Operativo: FCFS
         </Box>
         <ContenedorSeccion>
           <SeccionEjecucion />
